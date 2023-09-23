@@ -1,0 +1,35 @@
+<h1 appDisplayFlex>Listado de Alumnos</h1>
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Email</th>
+    <th>Inasistencias</th>
+    <th>Fecha de Ingreso</th>
+  </tr>
+  <tr *ngFor="let alumno of listadoAlumnos">
+    <th>{{ alumno.nombre }}</th>
+    <th>{{ alumno.apellido }}</th>
+    <th>{{ alumno.email }}</th>
+    <th [ngStyle]="getEstadoAlumnoStyle(alumno)">{{ alumno.inasistencias }}</th>
+    <th>{{ alumno.fechaIngreso | date : "longDate" }}</th>
+  </tr>
+</table>
+
+<h2>Advertencia</h2>
+
+<ul>
+  <ng-container *ngFor="let alumno of listadoAlumnos">
+    <li *ngIf="!alumno.regular" [ngStyle]="getRegularColor(alumno)">
+      El/La alumno/a {{ alumno.nombre }} es "No Regular". Podría quedar libre.
+    </li>
+  </ng-container>
+</ul>
+
+<h3 *ngIf="salvarAlumnos; else alumnosSalvados">
+  ¿Desea salvar a los alumnos?
+</h3>
+<ng-template #alumnosSalvados>
+  <h3>¡Los alumnos han sido Salvados!</h3>
+</ng-template>
+<button (click)="salvarAlumnos = !salvarAlumnos">Salvarlos</button>
